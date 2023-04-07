@@ -1,7 +1,7 @@
 node ('main'){
-    stage('Checkout') {
-        git url: 'https://github.com/jenarutamara/swarm-microservice-demo-v1.git', branch: 'master', credentialsId: 'github'
-    }
+    //stage('Checkout') {
+    //    git url: 'https://github.com/jenarutamara/swarm-microservice-demo-v1.git', branch: 'master', credentialsId: 'github'
+    //}
     
     stage('Build') {
         sh """
