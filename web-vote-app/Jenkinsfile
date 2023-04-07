@@ -10,7 +10,7 @@ node ('main'){
     }
     
     
-      stage('Push'){
+      stage('PushPush'){
         withCredentials([usernamePassword( credentialsId: 'registry', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                 sh """
                 docker login -u ${USERNAME} -p ${PASSWORD}
