@@ -14,8 +14,8 @@ pipeline {
     }
     stage('Building image') {
    sh """
-        docker build -t redis01 .
-      """
+   docker build -t redis01 .
+   """
     }
     stage('Deploy Image') {
       steps{
