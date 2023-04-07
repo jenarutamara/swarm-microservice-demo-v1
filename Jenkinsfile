@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Cloning Git') {
       steps {
-        git([url: 'https://github.com/jenarutamara/swarm-microservice-demo-v1.git', branch: 'main', credentialsId: 'github'])
+        git([url: 'https://github.com/jenarutamara/swarm-microservice-demo-v1.git', branch: 'redis', credentialsId: 'github'])
  
       }
     }
