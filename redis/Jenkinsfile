@@ -1,14 +1,14 @@
 pipeline {
   environment {
-    imagename = "kevalnagda/flaskapp"
-    registryCredential = 'kevalnagda'
+    imagename = "brindilsz/demo:web-vote-app"
+    registryCredential = 'registry'
     dockerImage = ''
   }
   agent any
   stages {
     stage('Cloning Git') {
       steps {
-        git([url: 'https://github.com/kevalnagda/movieapp.git', branch: 'main', credentialsId: 'kevalnagda'])
+        git([url: 'https://github.com/jenarutamara/swarm-microservice-demo-v1.git', branch: 'main', credentialsId: 'github'])
  
       }
     }
