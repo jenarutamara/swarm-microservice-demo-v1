@@ -1,5 +1,6 @@
 # Using official python runtime base image
 FROM python:2.7
+ENV WEB_VOTE_NUMBER=01
 
 # Set the application directory
 WORKDIR /app
