@@ -1,0 +1,24 @@
+node ('main'){
+    stage('Checkout') {
+        git url: 'https://github.com/jenarutamara/swarm-microservice-demo-v1.git', branch: 'master', credentialsId: 'github'
+    }
+    
+    stage('Build') {
+        sh """
+        docker build -t brindilsz/web-vote-app:latest https://github.com/jenarutamara/swarm-microservice-demo-v1.git#master:web-vote-app
+        """
+    }
+    
+    
+      stage('Push'){
+        withCredentials([usernamePassword( credentialsId: 'registry', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                sh """
+                docker login -u ${USERNAME} -p ${PASSWORD}
+                docker push brindilsz/web-vote-app:latest    
+                """
+        }
+        
+
+    }
+  
+}    
