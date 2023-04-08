@@ -99,12 +99,12 @@ ul{
   text-transform: uppercase;
 }
 
-#choice .choice.dogs{
+#choice .choice.anjing{
   color: #00cbca;
   float: right;
 }
 
-#choice .choice.cats{
+#choice .choice.kucing{
   color: #2196f3;
   float: left;
 }
