@@ -12,6 +12,7 @@ spec:
       labels:
         appname: redis01
         app: redis01
+        gitcommitid: $GIT_COMMIT_ID
     spec:
       containers:
         - name: redis01
