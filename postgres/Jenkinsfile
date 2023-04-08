@@ -1,0 +1,29 @@
+node ('main'){
+    stage('Checkout') {
+        git url: 'https://github.com/jenarutamara/swarm-microservice-demo-v1.git', branch: 'master', credentialsId: 'github'
+    }
+    
+    stage('Build') {
+        sh """
+        docker build -t brindilsz/postgres:latest https://github.com/jenarutamara/swarm-microservice-demo-v1.git#master:postgres
+        """
+    }
+    
+    
+     stage('PushPush'){
+        withCredentials([usernamePassword( credentialsId: 'registry', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+          sh """
+          docker login -u ${USERNAME} -p ${PASSWORD}
+          docker push brindilsz/postgres:latest    
+          """
+        }
+        
+
+    }
+    stage ('DeployToCluster'){
+        sh """
+            kubectl apply -f ./redis/deployment.yaml -n microservice-demo-v1
+        """
+    }
+  
+}  
