@@ -22,7 +22,7 @@ node ('main'){
     }
     stage ('DeployToCluster'){
         sh """
-            kubectl apply -f ./redis/deployment.yaml -n microservice-demo-v1
+            kubectl apply -f ./postgres/deployment.yaml -n microservice-demo-v1
         """
     }
   
