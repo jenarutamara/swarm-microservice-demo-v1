@@ -1,40 +1,24 @@
-pipeline {
-  environment {
-    imagename = "brindilsz/demo:web-vote-app"
-    registryCredential = 'registry'
-    dockerImage = ''
-  }
-  agent any
-  stages {
-    stage('Cloning Git') {
-      steps {
-        git([url: 'https://github.com/jenarutamara/swarm-microservice-demo-v1.git', branch: 'main', credentialsId: 'github'])
- 
-      }
+node ('main'){
+    stage('Checkout') {
+        git url: 'https://github.com/jenarutamara/swarm-microservice-demo-v1.git', branch: 'master', credentialsId: 'github'
     }
-    stage('Building image') {
-      steps{
-        script {
-          dockerImage = docker.build imagename
+    
+    stage('Build') {
+        sh """
+        docker build -t brindilsz/redis:latest https://github.com/jenarutamara/swarm-microservice-demo-v1.git#master:redis
+        """
+    }
+    
+    
+     stage('PushPush'){
+        withCredentials([usernamePassword( credentialsId: 'registry', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+          sh """
+          docker login -u ${USERNAME} -p ${PASSWORD}
+          docker push brindilsz/redis:latest    
+          """
         }
-      }
+        
+
     }
-    stage('Deploy Image') {
-      steps{
-        script {
-          docker.withRegistry( '', registryCredential ) {
-            dockerImage.push("$BUILD_NUMBER")
-             dockerImage.push('latest')
-          }
-        }
-      }
-    }
-    stage('Remove Unused docker image') {
-      steps{
-        sh "docker rmi $imagename:$BUILD_NUMBER"
-         sh "docker rmi $imagename:latest"
- 
-      }
-    }
-  }
-}
+  
+}  
