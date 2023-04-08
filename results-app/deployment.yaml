@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: result-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      appname: result-app
+  template:
+    metadata:
+      labels:
+        appname: result-app
+    spec:
+      containers:
+        - name: result-app
+          image: brindilsz/demo:result-app
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    appname: result-app
+  name: result-app
+  annotations:
+spec:
+  type:  NodePort
+  ports:
+    - port: 8082
+      targetPort: 80
+      protocol: TCP
+  selector:
+    appname: result-app
