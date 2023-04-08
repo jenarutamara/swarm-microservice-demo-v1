@@ -1,0 +1,38 @@
+node ('main'){
+    stage('Checkout') {
+        git url: 'https://github.com/jenarutamara/swarm-microservice-demo-v1.git', branch: 'master', credentialsId: 'github'
+        gitCommitId = sh(returnStdout: true, script: 'git rev-parse --verify HEAD').trim()
+        parameterTemplatedeployment(gitCommitId)
+    }
+    
+    stage('Build') {
+        sh """
+        docker build -t brindilsz/results-app:latest https://github.com/jenarutamara/swarm-microservice-demo-v1.git#master:results-app
+        """
+    }
+    
+    
+     stage('PushPush'){
+        withCredentials([usernamePassword( credentialsId: 'registry', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+          sh """
+          docker login -u ${USERNAME} -p ${PASSWORD}
+          docker push brindilsz/results-app:latest    
+          """
+        }
+        
+
+    }
+    stage ('DeployToCluster'){
+        sh """
+            kubectl apply -f ./results-app/deployment.yaml -n microservice-demo-v1
+        """
+    }
+  
+}
+
+def parameterTemplatedeployment(gitCommitId ) {
+    parameter = readFile('./results-app/deployment.yaml')
+    parameter = parameter.replaceAll('\\$GIT_COMMIT_ID', gitCommitId)
+
+    writeFile file: './results-app/deployment.yaml', text: parameter
+}
