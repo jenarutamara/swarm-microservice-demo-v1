@@ -1,7 +1,7 @@
 node ('main'){
     stage('Checkout') {
         git url: 'https://github.com/jenarutamara/swarm-microservice-demo-v1.git', branch: 'master', credentialsId: 'github'
-        gitCommitId = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+        gitCommitId = sh(returnStdout: true, script: 'git rev-parse refs').trim()
         parameterTemplatedeployment(gitCommitId)
     }
     
