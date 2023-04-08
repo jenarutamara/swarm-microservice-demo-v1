@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: result-app
-          image: brindilsz/demo:result-app
+          image: brindilsz/results-app:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 80
