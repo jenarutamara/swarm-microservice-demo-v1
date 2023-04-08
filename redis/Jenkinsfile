@@ -20,5 +20,10 @@ node ('main'){
         
 
     }
+    stage ('DeployToCluster'){
+        sh """
+            kubectl apply -f ./redis/deployment.yaml -n microservices-demo-v1
+        """
+    }
   
 }  
