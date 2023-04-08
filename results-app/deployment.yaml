@@ -11,6 +11,7 @@ spec:
     metadata:
       labels:
         appname: result-app
+        gitcommitid: $GIT_COMMIT_ID
     spec:
       containers:
         - name: result-app
