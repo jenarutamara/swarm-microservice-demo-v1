@@ -11,6 +11,7 @@ spec:
     metadata:
       labels:
         appname: web-vote-app
+        gitcommitid: $GIT_COMMIT_ID
     spec:
       containers:
         - name: web-vote-app
