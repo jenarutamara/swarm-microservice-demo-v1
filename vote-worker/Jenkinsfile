@@ -1,6 +1,8 @@
 node ('main'){
     stage('Checkout') {
         git url: 'https://github.com/jenarutamara/swarm-microservice-demo-v1.git', branch: 'master', credentialsId: 'github'
+        gitCommitId = sh(returnStdout: true, script: 'git rev-parse --verify HEAD').trim()
+        parameterTemplatedeployment(gitCommitId)
     }
     
     stage('Build') {
@@ -26,4 +28,11 @@ node ('main'){
         """
     }
   
-}  
+}
+
+def parameterTemplatedeployment(gitCommitId ) {
+    parameter = readFile('./vote-worker/deployment.yaml')
+    parameter = parameter.replaceAll('\\$GIT_COMMIT_ID', gitCommitId)
+
+    writeFile file: './vote-worker/deployment.yaml', text: parameter
+}
